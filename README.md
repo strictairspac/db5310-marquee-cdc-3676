@@ -7,7 +7,10 @@
 - 牌面目录
 - 变更批次
 - 断点续放
+- 上游补交裁定（整组放行、缺号挂起与失效）
 - 牌面发布单
+
+裁定状态与已整组放行记录随执行证据保存，并可通过 `GET /api/evidence/{id}/adjudications` 与 `GET /api/evidence/{id}/released` 查询，规则口径见 [BUSINESS.md](BUSINESS.md)。
 
 ## 本地运行
 

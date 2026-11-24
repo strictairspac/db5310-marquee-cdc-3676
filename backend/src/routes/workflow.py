@@ -64,6 +64,16 @@ def review_evidence(identity: int, form: ReviewForm, actor=Depends(reviewer)):
     return workflow.review(identity, form.note, actor)
 
 
+@router.get('/evidence/{identity}/adjudications')
+def evidence_adjudications(identity: int, _=Depends(current_user)):
+    return workflow.adjudication_status(identity)
+
+
+@router.get('/evidence/{identity}/released')
+def evidence_released(identity: int, _=Depends(current_user)):
+    return workflow.released_records(identity)
+
+
 @router.get('/audit')
 def list_audit(_=Depends(current_user)):
     return workflow.recent(audit)

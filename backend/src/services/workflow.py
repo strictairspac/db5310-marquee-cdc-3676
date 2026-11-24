@@ -102,3 +102,23 @@ def review(identity, note, actor):
             raise HTTPException(409, '该证据已经复核')
         log(conn, actor, 'review', identity)
         return found(conn, evidence, identity)
+
+
+def _report(identity):
+    with engine.connect() as conn:
+        row = found(conn, evidence, identity)
+    return row['report']
+
+
+def adjudication_status(identity):
+    report = _report(identity)
+    rulings = next((section['rows'] for section in report['sections']
+                    if section['title'] == '裁定状态'), [])
+    return {'evidence_id': identity, 'count': len(rulings), 'rulings': rulings}
+
+
+def released_records(identity):
+    report = _report(identity)
+    rows = next((section['rows'] for section in report['sections']
+                 if section['title'] == '已整组放行记录'), [])
+    return {'evidence_id': identity, 'count': len(rows), 'released': rows}
